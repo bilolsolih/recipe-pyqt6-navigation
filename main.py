@@ -3,7 +3,7 @@ import sys
 from PyQt6.QtCore import Qt, QLine
 from PyQt6.QtWidgets import QApplication, QWidget, QVBoxLayout, QStackedWidget, QLabel
 
-from pages.categories import CategoriesPage
+from pages.categories_list import CategoriesPage
 from widgets.bottom_navigation import BottomNavigationBar
 from widgets.top_navigation import TopNavigationBar
 
@@ -19,15 +19,16 @@ class MainWindow(QWidget):
         self.setStyleSheet("background-color: #1C0F0D;")
 
     def __set_up_layout(self) -> None:
-        top_navigation_bar = TopNavigationBar()
+        self.top_navigation_bar = TopNavigationBar("Categories")
         self.stacked_widget = QStackedWidget()
 
         categories_page = CategoriesPage()
-        self.stacked_widget.addWidget(categories_page)
         categories_page.categoryItemSignal.connect(self.create_a_new_page)
+        self.stacked_widget.addWidget(categories_page)
+
 
         bottom_navigation_bar = BottomNavigationBar()
-        self.main_layout.addWidget(top_navigation_bar, alignment=Qt.AlignmentFlag.AlignTop)
+        self.main_layout.addWidget(self.top_navigation_bar, alignment=Qt.AlignmentFlag.AlignTop)
         self.main_layout.addWidget(self.stacked_widget, alignment=Qt.AlignmentFlag.AlignHCenter)
         self.main_layout.addWidget(bottom_navigation_bar, alignment=Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignBottom)
         self.setLayout(self.main_layout)
@@ -36,6 +37,7 @@ class MainWindow(QWidget):
         label = QLabel(title)
         self.stacked_widget.addWidget(label)
         self.stacked_widget.setCurrentWidget(label)
+        self.top_navigation_bar.change_title(title)
 
 
 app = QApplication(sys.argv)

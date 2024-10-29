@@ -4,7 +4,7 @@ from PyQt6.QtWidgets import QHBoxLayout, QWidget, QLabel
 
 
 class TopNavigationBar(QWidget):
-    def __init__(self):
+    def __init__(self, title: str):
         super().__init__()
         top_bar_layout = QHBoxLayout()
         top_bar_layout.setAlignment(Qt.AlignmentFlag.AlignTop)
@@ -13,8 +13,8 @@ class TopNavigationBar(QWidget):
         back_button = QLabel()
         back_button.setPixmap(QPixmap('assets/back-arrow.svg'))
 
-        menu_title = QLabel('Categories')
-        menu_title.setStyleSheet("color: #FD5D69; font-weight: bold; font-size: 20px;")
+        self.menu_title = QLabel(title)
+        self.menu_title.setStyleSheet("color: #FD5D69; font-weight: bold; font-size: 20px;")
 
         notifications_button = QLabel()
         notifications_button.setPixmap(QPixmap('assets/notification-button.svg'))
@@ -29,7 +29,10 @@ class TopNavigationBar(QWidget):
         top_right_widget.setLayout(top_right_layout)
 
         top_bar_layout.addWidget(back_button, alignment=Qt.AlignmentFlag.AlignLeft)
-        top_bar_layout.addWidget(menu_title, alignment=Qt.AlignmentFlag.AlignCenter)
+        top_bar_layout.addWidget(self.menu_title, alignment=Qt.AlignmentFlag.AlignCenter)
         top_bar_layout.addWidget(top_right_widget, alignment=Qt.AlignmentFlag.AlignRight)
 
         self.setLayout(top_bar_layout)
+
+    def change_title(self, title: str):
+        self.menu_title.setText(title)

@@ -24,15 +24,18 @@ class CategoriesPage(QScrollArea):
             CategoryItem("Dinner", "assets/dinner.png", 160, 145),
             CategoryItem("Vegan", "assets/vegan.png", 160, 145),
             CategoryItem("Dessert", "assets/dessert.png", 160, 145),
-            CategoryItem("Drinks", "assets/drinks.png", 160, 145)
+            CategoryItem("Drinks", "assets/drinks.png", 160, 145),
         ]
 
         for item in items:
             item.categoryItemSignal.connect(lambda title: self.categoryItemSignal.emit(title))
+
         return items
 
     def get_item_main(self) -> QWidget:
-        return CategoryItem("Seafood", "assets/seafood.png", 356, 149, reverse_title_and_photo=True)
+        item = CategoryItem("Seafood", "assets/seafood.png", 356, 149, reverse_title_and_photo=True)
+        item.categoryItemSignal.connect(lambda title: self.categoryItemSignal.emit(title))
+        return item
 
     def __set_up_layout(self) -> None:
         layout = QGridLayout()
